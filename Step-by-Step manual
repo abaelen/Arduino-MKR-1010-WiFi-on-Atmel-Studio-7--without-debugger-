@@ -1,1 +1,14 @@
+#Step-by-step manual
+This document will outline the steps involved in setting up the AS7 code as provided in this repositry
+
+In Arduino IDE, create a new fully blank sketch and save it as 'Arduino Template.ino'.
+
+Download AS7 for free from Atmel's website (now owned by Microchip)
+Open a new AS7.
+File > New > Project
+Select 'Create project from Arduino Sketch' and provide a name / location / Solution name.
+Select the sketch file 'Arduino Template.ino' 
+Provide the Arduino installation path (prefilled)
+Select the board: 'Arduino MKR WiFi 1010'
+Select the device: 'ATSAMD21G18A'
 
