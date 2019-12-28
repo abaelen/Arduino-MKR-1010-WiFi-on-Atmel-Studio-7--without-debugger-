@@ -12,3 +12,61 @@ Provide the Arduino installation path (prefilled)
 Select the board: 'Arduino MKR WiFi 1010'
 Select the device: 'ATSAMD21G18A'
 
+In the solution explorer pane, select the Arduino_Template_v1 project
+Right mouse click select properties (to open the Build & Toolchain settings)
+Under the toolchain settings:
+  > ARM/GNU common - outputfiles: tick .BIN box (Generate Bin file) if not already pre-ticked (best to tick all)
+  > ARM/GNU C compiler - symbols: add by deleting out all and replacing or by adding the missing:
+      DEBUG
+      F_CPY=48000000L
+      ARDUINO=108010
+      ARDUINO_SAMD_MKRWIFI1010
+      ARDUINO_ARCH_SAMD
+      USE_ARDUINO_MKR_PIN_LAYOUT
+      __SAMD21G18A__
+      USB_VID=0x2341
+      USB_PID=0x8054
+      USBCON
+      USB_PRODUCT="\'Arduino MKR WiFi 1010\'"
+      USB_MANUFACTURER="\"Arduino LLC\""
+      USE_BQ24195L_PMIC
+   > ARM/GNU C++ - symbols: copy/paste same as above
+   > ARM/GNU Linker - Miscellaneous
+      Linker Flags: change -Tflash_without_bootloader.ld to -Tflash_with_bootloader.ld
+ 
+ Under the Tool settins:
+    Selected debugger/programmer: Select Custom Programming Tool
+    Custom programming tool command: C:\Users\[xxxxxxxx]\AppData\Local\Arduino15\packages\arduino\tools\bossac\1.7.0-arduino3/bossac.exe -i -d --port=COM7 -U true -i -e -w -v "$(OutputDirectory)\$(OutputFileName).bin" -R 
+      Change herwith the [xxxxxxx] with your user path and the COM7 with the COM port of your Arduino Wifi Bootloader (most of time 1 higher than your board is identified. So mine board gets recognized as COM6)
+ Save the properties
+ 
+ 
+ In the solution explorer pane, select the ArduinoCore project
+ Right mouse click select properties (to open the Build & Toolchain settings)
+ Under the toolchain settings:
+  Repeat the same steps as herabove for ARM/GNU common / C compiler & C++
+ Save the properties
+ 
+ In the solution explorer pane, double click the Sketch.cpp
+  Add your code - simple blink example: (it can be confusing as the leds fades in & out in bootloader mode, the sketch below will have the led blinking hard off & on per 1 second) 
+    void setup() {
+      // put your setup code here, to run once:
+      pinMode(6,OUTPUT);
+    }
+
+    void loop() {
+      // put your main code here, to run repeatedly:
+      digitalWrite(6,HIGH);
+      delay(1000);
+      digitalWrite(6,LOW);
+      delay(1000);
+    }
+Save the sketch.cpp
+
+In menu Build > Build Solution
+
+Double press the reset button on your Arduino board to enter Bootloading state, ie. onboard led should flash slowly
+In menu Debug > Start without debugging (we dont have a debugger)
+ 
+     good luck! 
+      
